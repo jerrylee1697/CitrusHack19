@@ -7,8 +7,10 @@ import twitter
 from ibm_watson import PersonalityInsightsV3
 from flask import Flask, request, Response
 from flask import jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 def get_content():
     """Returns content from Facebook's Graph API using
@@ -36,8 +38,10 @@ def content_info(messages):
     return json.dumps(content_info)
 
 
-def personality_data(user_content):
+@app.route("/personality_data", methods = ['POST'])
+def personality_data():
     """Returns personality trait data for the user."""
+    user_content = request.get_data()
     personality_insights = PersonalityInsightsV3(
         version='2017-10-13',
         iam_apikey='m8CcsJovJ2rfO9wpD0eSe0E6EFXTSNTwoc8fGIaj5RrR',
@@ -50,7 +54,7 @@ def personality_data(user_content):
         consumption_preferences=True,
         raw_scores=True
     ).get_result()
-    return profile
+    return jsonify(profile) 
 
 
 @app.route("/personality_ratings")
