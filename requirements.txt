@@ -7,4 +7,4 @@ soupsieve==1.9
 twitterscraper==0.9.3
 urllib3==1.24.1
 websocket-client==0.48.0
-flask-cors==3.0.7
+flask-cors==3.0.9
